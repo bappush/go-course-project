@@ -29,7 +29,7 @@ func main() {
 	router := chi.NewRouter()
 
 	// handlers
-	router.Get("/inc", increment.New(log, counterStorage))
+	router.Post("/inc", increment.New(log, counterStorage))
 
 	// start http server
 	log.Info("starting http-server", slog.String("address", cfg.HTTPServerAddress), slog.String("env", cfg.Env))
