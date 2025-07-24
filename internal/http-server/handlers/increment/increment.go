@@ -16,7 +16,6 @@ type Response struct {
 type CounterProvider interface {
 	Increment(key string)
 	GetCounter(key string) int
-	GetCounters() map[string]int
 }
 
 // New creates a new HandlerFunc for POST /inc

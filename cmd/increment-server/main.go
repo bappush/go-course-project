@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/bappush/go-course-project/internal/http-server/handlers/increment"
-	"github.com/bappush/go-course-project/internal/storage"
 	"log/slog"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/bappush/go-course-project/internal/config"
+	"github.com/bappush/go-course-project/internal/http-server/handlers/increment"
+	"github.com/bappush/go-course-project/internal/models/counters"
+	"github.com/bappush/go-course-project/internal/storage"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -54,10 +55,12 @@ func logCounter(provider increment.CounterProvider, logger slog.Logger) {
 	tickPeriod := 5 * time.Second
 	ticker := time.NewTicker(tickPeriod)
 
+	keys := counters.GetAllowedKeys()
+
 	for range ticker.C {
-		counter := provider.GetCounters()
-		for k, v := range counter {
-			logger.Info("log counter", slog.String("key", k), slog.String("value", fmt.Sprintf("%v", v)))
+		for _, key := range keys {
+			counter := provider.GetCounter(key)
+			logger.Info("log counter", slog.String("key", key), slog.String("value", fmt.Sprintf("%v", counter)))
 		}
 	}
 }

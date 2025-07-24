@@ -28,7 +28,3 @@ func (s *CounterStorage) GetCounter(key string) int {
 	defer s.mu.Unlock()
 	return s.counters[key]
 }
-
-func (s *CounterStorage) GetCounters() map[string]int {
-	return s.counters
-}
